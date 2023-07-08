@@ -351,6 +351,7 @@ bool SceneTreeEditor::_add_nodes(Node *p_node, TreeItem *p_parent, bool p_scroll
 			if (script->is_tool()) {
 				additional_notes += "\n" + TTR("This script is currently running in the editor.");
 				button_color = get_color("accent_color", "Editor");
+			}
 			item->add_button(0, get_icon("Script", "EditorIcons"), BUTTON_SCRIPT, false, TTR("Open Script:") + " " + script->get_path());
 			if (EditorNode::get_singleton()->get_object_custom_type_base(p_node) == script ||
 					ScriptServer::get_global_class_name(script->get_path()) != StringName()) {

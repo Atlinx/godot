@@ -3955,11 +3955,6 @@ Ref<Script> EditorNode::get_object_custom_type_base(const Object *p_object) cons
 	Ref<Script> script = p_object->get_script();
 
 	if (script.is_valid()) {
-		// Uncommenting would break things! Consider adding a parameter if you need it.
-		// StringName name = EditorNode::get_editor_data().script_class_get_name(base_script->get_path());
-		// if (name != StringName())
-		// 	return name;
-
 		// should probably be deprecated in 4.x
 		StringName native = script->get_instance_base_type();
 		if (native != StringName() && EditorNode::get_editor_data().get_custom_types().has(native)) {
@@ -4108,11 +4103,11 @@ Ref<Texture> EditorNode::get_class_icon(const String &p_class, const String &p_f
 	if (ScriptServer::is_global_class(p_class)) {
 		Ref<ImageTexture> icon;
 		Ref<Script> script = ScriptServer::get_global_class_script(p_class);
-		StringName name = p_class;
+		String class_name = p_class;
 
 		while (script.is_valid()) {
-			name = ScriptServer::get_global_class_name(script->get_path());
-			String current_icon_path = ed.script_class_get_icon_path(name);
+			class_name = ScriptServer::get_global_class_name(script->get_path());
+			String current_icon_path = ed.script_class_get_icon_path(class_name);
 			icon = _load_custom_class_icon(current_icon_path);
 			if (icon.is_valid()) {
 				return icon; // Current global class has icon.
@@ -4131,7 +4126,7 @@ Ref<Texture> EditorNode::get_class_icon(const String &p_class, const String &p_f
 					return gui_base->get_icon(p_fallback, "EditorIcons");
 				}
 				script = base_script;
-				class_name = EditorNode::get_editor_data().script_class_get_name(script->get_path());
+				class_name = ScriptServer::get_global_class_name(script->get_path());
 			} while (class_name.empty());
 		}
 	}
